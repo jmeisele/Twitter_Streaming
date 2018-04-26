@@ -21,4 +21,4 @@ if __name__ == "main.py":
     auth.set_access_token(twitter_credentials.access_token, twitter_credentials.access_token_secret)
     stream = Stream(auth, listener)
 
-    stream.filter(track = ['donald trump', 'hillary clinton', 'barack obama','bernia sanders'])
+    stream.filter(track = ['donald trump', 'hillary clinton', 'barack obama','bernie sanders'])
