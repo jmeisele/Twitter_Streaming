@@ -1,24 +1,26 @@
-#This py file generates wordcloud based on user input from GUI and streaming service from tweepy_streamer
-
-import matplotlib.pyplot as plt
 import pandas as pd
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import wordpunct_tokenize
-from wordcloud import WordCloud as wc
+import numpy as np
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
 
 
-df = pd.read_json("tweets.json")
-stop = set(stopword.words['english'])
-stop.update(['.', ',', '"', "'", '?', '!', ':', ';', '(', ')', '[', ']', '{', '}', '@', 'the','a','an','and'])
+#Create the dataframe from the json file
+df = pd.read_json(path_or_buf = 'tweets.json', lines = True)
 
-series_tweets = df['text']
-tweet_str =series_tweets.str.cat(sep = ' ')
-list_of_words = [i.lower() for i in wordpunct_tokenize(tweet_str) if i.lower() not in stop and i.isalpha()]
-wordfreqdist = nltk.FreqDist(list_of_words)
-mostcommon = wordfreqdist.most_common(30)
-#print(most_common)
+#Extract only the text column
+text = df['text']
 
-plt.barh(range(len(mostcommon)), [val[1] for val in mostcommon], align ='center')
-plt.yticks(range(len(mostcommon)),[val[0] for val in mostcommon])
+#Create a single string from all text
+words = ' '.join(text)
+
+#Words to ignore
+ignored_words =['http','RT','the','CO','and','to','https']
+
+#Generate an instance of WordCloud
+wordcloud = WordCloud(stopwords = ignored_words)
+wordcloud.generate(text = words)
+
+#Plot the wordcloud
+plt.imshow(wordcloud)
+plt.axis('off')
 plt.show()
