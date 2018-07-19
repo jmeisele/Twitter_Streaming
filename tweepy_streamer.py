@@ -24,7 +24,7 @@ class TwitterClient():
 
     def get_friend_list(self,num_friends):
         friend_list = []
-        for friend in Cursor(self.twitter_client.friends, id = self.twitter_user)items(num_friends):
+        for friend in Cursor(self.twitter_client.friends, id = self.twitter_user).items(num_friends):
             friend_list.append(friend)
         return friend_list
 
